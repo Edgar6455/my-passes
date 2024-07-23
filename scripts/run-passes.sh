@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LLVM_ROOT_DIR=$(dirname "$(dirname "$(dirname "$(realpath "$0")")")")  # Assuming that "my-passes" is in root dir of LLVM
-LLVM_BUILD_DIR="$LLVM_ROOT_DIR/build"  # Assuming that LLVM build directory called "build", change if something else
+export LLVM_DIR=/path/to/llvm-project  # Change this to your LLVM root directory path
+LLVM_BUILD_DIR="$LLVM_DIR/build"  # Assuming that LLVM build directory called "build", change if something else
 ROOT_DIR=$(dirname "$(dirname "$(realpath "$0")")")
 
 IR_FILENAME_C="example.c"
