@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export LLVM_DIR=/path/to/llvm-project  # Change this to your LLVM root directory path
 BUILD_DIRNAME="build"
 ROOT_DIR=$(dirname "$(dirname "$(realpath "$0")")")
 TOTAL_CORES=$(nproc)

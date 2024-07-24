@@ -1,40 +1,57 @@
 set(MY_PLUGINS
-    1_Functions
-    2_BasicBlocksCount
-    3_InstructionsInBB
-    4_Opcodes
-    5_FunctionCallsCount
-    6_AddToSub
-    )
+        1_Functions
+        2_BasicBlocksCount
+        3_InstructionsInBB
+        4_Opcodes
+        5_FunctionCallsCount
+        6_AddToSub
+)
 
 set(1_Functions_SOURCES
-    1_Functions.cpp)
+        1_Functions.cpp)
 set(2_BasicBlocksCount_SOURCES
-    2_BasicBlocksCount.cpp)
+        2_BasicBlocksCount.cpp)
 set(3_InstructionsInBB_SOURCES
-    3_InstructionsInBB.cpp)
+        3_InstructionsInBB.cpp)
 set(4_Opcodes_SOURCES
-    4_Opcodes.cpp)
+        4_Opcodes.cpp)
 set(5_FunctionCallsCount_SOURCES
-    5_FunctionCallsCount.cpp)
+        5_FunctionCallsCount.cpp)
 set(6_AddToSub_SOURCES
-    6_AddToSub.cpp)
+        6_AddToSub.cpp)
 
 # Configure the plugin libraries
 foreach( plugin ${MY_PLUGINS} )
     # Create a library corresponding to 'plugin'
     add_library(
-      ${plugin}
-      SHARED
-      ${${plugin}_SOURCES}
-      )
+            ${plugin}
+            SHARED
+            ${${plugin}_SOURCES}
+    )
 
     # Configure include directories for 'plugin'
     target_include_directories(
-      ${plugin}
-      PRIVATE
-      "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+            ${plugin}
+            PRIVATE
+            "${CMAKE_CURRENT_SOURCE_DIR}/../include"
     )
 
     install(TARGETS ${plugin} LIBRARY DESTINATION "${CMAKE_SOURCE_DIR}/lib")
 endforeach()
+
+# Add main executable
+set(MAIN_SOURCES
+        main.cpp)
+
+add_executable(run_pass ${MAIN_SOURCES})
+
+if (DEFINED ENV{LLVM_DIR})
+    set(LLVM_ROOT_DIR $ENV{LLVM_DIR})
+else()
+    message(FATAL_ERROR "LLVM_DIR environment variable is not set.")
+endif()
+
+target_compile_definitions(run_pass PRIVATE LIB_DIR="${CMAKE_SOURCE_DIR}/lib" LLVM_ROOT_DIR="${LLVM_ROOT_DIR}")
+
+# Install the executable
+install(TARGETS run_pass RUNTIME DESTINATION "${CMAKE_SOURCE_DIR}/bin")

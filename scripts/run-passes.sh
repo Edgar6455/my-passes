@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export LLVM_DIR=/path/to/llvm-project  # Change this to your LLVM root directory path
 LLVM_BUILD_DIR="$LLVM_DIR/build"  # Assuming that LLVM build directory called "build", change if something else
 ROOT_DIR=$(dirname "$(dirname "$(realpath "$0")")")
 
@@ -26,4 +25,4 @@ echo -e "\n------------------------ Running Pass 5 ------------------------\n"
 "$LLVM_BUILD_DIR"/bin/opt -load-pass-plugin "$ROOT_DIR"/lib/lib5_FunctionCallsCount.so --passes="5_function-calls-count" -disable-output "$IR_FILENAME_LL"
 echo -e "\n------------------------ Running Pass 6 ------------------------"
 echo -e "Note: writing output to output-for-add-to-sub.ll\n"
-"$LLVM_BUILD_DIR"/bin/opt -load-pass-plugin "$ROOT_DIR"/lib/lib6_AddToSub.so --passes="6_add-to-sub" -S "$IR_FILENAME_LL" -o output-for-add-to-sub.ll
+"$LLVM_BUILD_DIR"/bin/opt -load-pass-plugin "$ROOT_DIR"/lib/lib6_AddToSub.so --passes="6_add-to-sub" -disable-output "$IR_FILENAME_LL"
