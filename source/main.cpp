@@ -16,10 +16,9 @@ void wrongArguments(char* argv[], const std::map<std::string, std::string>& pass
 
 void runPass(const std::string& passName, const std::string& bitcodeFilePath, const std::map<std::string, std::string>& passToLib)
 {
-    std::string optDir = std::string(LLVM_ROOT_DIR) + "/build/bin/opt";
     std::string libName = passToLib.find(passName)->second;
 
-    const std::string command = optDir + " -load-pass-plugin " + std::string(LIB_DIR) + "/" + libName + " --passes=" + passName + " -disable-output " + bitcodeFilePath;
+    const std::string command = "opt -load-pass-plugin " + std::string(LIB_DIR) + "/" + libName + " --passes=" + passName + " -disable-output " + bitcodeFilePath;
 
     std::cerr << "Running " << passName << "..." << std::endl << std::endl;
     int result = std::system(command.c_str());

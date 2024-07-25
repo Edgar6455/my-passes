@@ -13,9 +13,13 @@ config.test_exec_root = os.path.join(config.test_source_root, 'Output')
 # Ensure the output directory exists
 os.makedirs(config.test_exec_root, exist_ok=True)
 
+# Note: If you didn't install LLVM from scripts/install_dependencies.sh, or LLVM is
+#       not installed in "$HOME/llvm/llvm-project" set LLVM_DIR environment variable:
+#       export LLVM_DIR="/path/to/your/llvm"
+
 # Get the LLVM_DIR environment variable and append /build/bin to it
-llvm_dir = os.getenv("LLVM_DIR", "/bin")
-llvm_bin_dir = os.path.join(llvm_dir, "build", "bin")
+llvm_dir = os.getenv("LLVM_DIR", os.path.join(os.getenv("HOME"), "llvm/llvm-project"))
+llvm_bin_dir = os.path.join(llvm_dir, "build/bin")
 
 # Ensure the required tools are found and substituted
 config.substitutions.append(('%opt', os.path.join(llvm_bin_dir, 'opt')))

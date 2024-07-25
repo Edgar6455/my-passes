@@ -45,13 +45,7 @@ set(MAIN_SOURCES
 
 add_executable(run_pass ${MAIN_SOURCES})
 
-if (DEFINED ENV{LLVM_DIR})
-    set(LLVM_ROOT_DIR $ENV{LLVM_DIR})
-else()
-    message(FATAL_ERROR "LLVM_DIR environment variable is not set.")
-endif()
-
-target_compile_definitions(run_pass PRIVATE LIB_DIR="${CMAKE_SOURCE_DIR}/lib" LLVM_ROOT_DIR="${LLVM_ROOT_DIR}")
+target_compile_definitions(run_pass PRIVATE LIB_DIR="${CMAKE_SOURCE_DIR}/lib")
 
 # Install the executable
 install(TARGETS run_pass RUNTIME DESTINATION "${CMAKE_SOURCE_DIR}/bin")

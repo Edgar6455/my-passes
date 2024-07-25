@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Note: You can specify installation path of the LLVM by this command:
+#       export LLVM_DIR="/your/preferred/path/for/llvm"
+
 if [ "$HOME" == "/root" ]; then
     echo "Error: Run the script with sudo -E flag."
     exit 1
@@ -43,7 +46,7 @@ cd "$BUILD_DIRNAME" || exit
 
 echo "Building LLVM..."
 cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=host -DLLVM_ENABLE_PROJECTS=clang "$LLVM_DIR/llvm"
-cmake --build . --parallel 4 #"$CORES_34"
+cmake --build . --parallel "$CORES_34"
 make install
 
 echo "export LLVM_DIR=$LLVM_DIR" >> ~/.bashrc
