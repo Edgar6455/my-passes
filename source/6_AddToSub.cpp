@@ -2,6 +2,22 @@
 
 using namespace llvm;
 
+int AddToSub::saveTo(Module& M, const std::string& outputFilePath)
+{
+  // Write the modified module to a new LLVM IR text file
+  std::error_code EC;
+  raw_fd_ostream OS(outputFilePath, EC, sys::fs::OF_None);
+  if (EC)
+  {
+    errs() << "Error opening file: " << EC.message() << "\n";
+    return 1;
+  }
+
+  // Print the module to the file in LLVM IR format
+  M.print(OS, nullptr);
+  return 0;
+}
+
 PreservedAnalyses AddToSub::run(Module &M, ModuleAnalysisManager&)
 {
   bool Modified = false;
@@ -50,19 +66,9 @@ PreservedAnalyses AddToSub::run(Module &M, ModuleAnalysisManager&)
     }
   }
 
-  // Define the output file path
   std::string outputFilePath = "output-for-add-to-sub.ll";
-
-  // Write the modified module to a new LLVM IR text file
-  std::error_code EC;
-  raw_fd_ostream OS(outputFilePath, EC, sys::fs::OF_None);
-  if (EC) {
-    errs() << "Error opening file: " << EC.message() << "\n";
+  if (saveTo(M, outputFilePath))
     return PreservedAnalyses::all();
-  }
-
-  // Print the module to the file in LLVM IR format
-  M.print(OS, nullptr);
 
   return Modified ? PreservedAnalyses::none() : PreservedAnalyses::all();
 }

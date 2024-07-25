@@ -13,6 +13,8 @@ using namespace llvm;
 
 struct AddToSub : public PassInfoMixin<AddToSub>
 {
+  int saveTo(Module& M, const std::string& outputFilePath);
+
   PreservedAnalyses run(Module &M, ModuleAnalysisManager&);
 
   static bool isRequired() { return true; }
