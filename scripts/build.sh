@@ -10,6 +10,6 @@ rm -rf "$BUILD_DIRNAME"
 mkdir "$BUILD_DIRNAME"
 cd "$BUILD_DIRNAME" || exit
 
-cmake -DLLVM_DIR="$LLVM_DIR"/build/lib/cmake/llvm "$ROOT_DIR"
+cmake "$ROOT_DIR"
 make -j "$CORES_34"
 make install
